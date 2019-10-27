@@ -37,12 +37,28 @@ BasicUsageEnvironment::BasicUsageEnvironment(TaskScheduler& taskScheduler)
 #endif
 }
 
+BasicUsageEnvironment::BasicUsageEnvironment(TaskScheduler& taskScheduler, void *userData)
+: BasicUsageEnvironment0(taskScheduler, userData) {
+#if defined(__WIN32__) || defined(_WIN32)
+  if (!initializeWinsockIfNecessary()) {
+    setResultErrMsg("Failed to initialize 'winsock': ");
+    reportBackgroundError();
+    internalError();
+  }
+#endif
+}
+
 BasicUsageEnvironment::~BasicUsageEnvironment() {
 }
 
 BasicUsageEnvironment*
 BasicUsageEnvironment::createNew(TaskScheduler& taskScheduler) {
   return new BasicUsageEnvironment(taskScheduler);
+}
+
+BasicUsageEnvironment*
+BasicUsageEnvironment::createNew2(TaskScheduler& taskScheduler, void *userData) {
+  return new BasicUsageEnvironment(taskScheduler, userData);
 }
 
 int BasicUsageEnvironment::getErrno() const {

@@ -90,12 +90,16 @@ public:
   void* liveMediaPriv;
   void* groupsockPriv;
 
+  void* userObject() const { return objectUser;};
+
 protected:
   UsageEnvironment(TaskScheduler& scheduler); // abstract base class
+  UsageEnvironment(TaskScheduler& scheduler, void *userData);
   virtual ~UsageEnvironment(); // we are deleted only by reclaim()
 
 private:
   TaskScheduler& fScheduler;
+  void *objectUser;
 };
 
 

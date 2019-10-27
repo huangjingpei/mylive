@@ -32,6 +32,12 @@ BasicUsageEnvironment0::BasicUsageEnvironment0(TaskScheduler& taskScheduler)
   reset();
 }
 
+BasicUsageEnvironment0::BasicUsageEnvironment0(TaskScheduler& taskScheduler, void *userData)
+  : UsageEnvironment(taskScheduler, userData),
+    fBufferMaxSize(RESULT_MSG_BUFFER_MAX) {
+  reset();
+}
+
 BasicUsageEnvironment0::~BasicUsageEnvironment0() {
 }
 

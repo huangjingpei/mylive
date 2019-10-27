@@ -55,6 +55,7 @@ public:
 
 protected:
   BasicUsageEnvironment0(TaskScheduler& taskScheduler);
+  BasicUsageEnvironment0(TaskScheduler& taskScheduler, void *userData);
   virtual ~BasicUsageEnvironment0();
 
 private:

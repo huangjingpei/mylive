@@ -27,6 +27,8 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 class BasicUsageEnvironment: public BasicUsageEnvironment0 {
 public:
   static BasicUsageEnvironment* createNew(TaskScheduler& taskScheduler);
+  static BasicUsageEnvironment* createNew2(TaskScheduler& taskScheduler, void *userData);
+
 
   // redefined virtual functions:
   virtual int getErrno() const;
@@ -40,6 +42,7 @@ public:
 protected:
   BasicUsageEnvironment(TaskScheduler& taskScheduler);
       // called only by "createNew()" (or subclass constructors)
+  BasicUsageEnvironment(TaskScheduler& taskScheduler, void *userData);
   virtual ~BasicUsageEnvironment();
 };
 
