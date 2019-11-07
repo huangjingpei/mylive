@@ -903,26 +903,26 @@ AACDecoder *aacDecoder = NULL;
 void ExitNotify_(void* clientData, bool exit) {
 
 }
-void AccessUnitNotify_(int size, long long ts, char *buffer, void *object, int type) {
-	if(type == 0) {
-		if (aacDecoder == NULL) {
-			aacDecoder = new AACDecoder();
-			aacDecoder->initAACDecoder(2, 48000);
-		}
-
-		aacDecoder->decode(buffer, (unsigned long int)size);
-	}
-}
-int main() {
-	GeDuRtspHandle *handle = GeDuRtspCreate("testRtspClient", "rtsp://192.168.1.100:8554/a.mkv",
-			ExitNotify_, AccessUnitNotify_, NULL);
-	char running = false;
-	GeDuRtspEventLoop(handle, &running);
-
-	while(1) {
-		sleep(1);
-	}
-
-	GeDuRtspDestory(handle);
-
-}
+//void AccessUnitNotify_(int size, long long ts, char *buffer, void *object, int type) {
+//	if(type == 0) {
+//		if (aacDecoder == NULL) {
+//			aacDecoder = new AACDecoder();
+//			aacDecoder->initAACDecoder(2, 48000);
+//		}
+//
+//		aacDecoder->decode(buffer, (unsigned long int)size);
+//	}
+//}
+//int main() {
+//	GeDuRtspHandle *handle = GeDuRtspCreate("testRtspClient", "rtsp://192.168.1.100:8554/a.mkv",
+//			ExitNotify_, AccessUnitNotify_, NULL);
+//	char running = false;
+//	GeDuRtspEventLoop(handle, &running);
+//
+//	while(1) {
+//		sleep(1);
+//	}
+//
+//	GeDuRtspDestory(handle);
+//
+//}

@@ -4,7 +4,6 @@
 typedef void ExitNotify(void* clientData, bool exit);
 typedef void AccessUnitNotify(int size, long long ts, char *buffer, void *data, int type);
 
-
 typedef struct tag_gedu_rtsp_handle {
 	/*RTSP agent name*/
 	char *name;
