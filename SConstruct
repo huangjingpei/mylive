@@ -29,13 +29,14 @@ _env.Append(LIBS = [
 	'groupsock', 
 	'UsageEnvironment',
 	'BasicUsageEnvironment',
-	'fadd'
+	#'fadd'
 	])
 
 
 _env.Append(CPPFLAGS = ['-D_LINUX', '-DLINUX'])
 totalSources = '''
-		RtspClient/AACDecoder.cpp \
+		#RtspClient/AACDecoder.cpp \
+		#RtspClient/H264Decoder.cpp \
 		RtspClient/lstLib.cpp \
 		RtspClient/SpecificData.cpp \
 		RtspClient/BitStream.cpp \

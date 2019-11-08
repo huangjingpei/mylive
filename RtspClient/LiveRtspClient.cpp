@@ -898,19 +898,28 @@ Boolean DummySink::continuePlaying() {
 			afterGettingFrame, this, onSourceClosure, this);
 	return True;
 }
-#include "AACDecoder.h"
-AACDecoder *aacDecoder = NULL;
-void ExitNotify_(void* clientData, bool exit) {
-
-}
+//#include "AACDecoder.h"
+//#include "H264Decoder.h"
+//AACDecoder *aacDecoder = NULL;
+//H264Decoder *h264Decoder = NULL;
+//void ExitNotify_(void* clientData, bool exit) {
+//
+//}
 //void AccessUnitNotify_(int size, long long ts, char *buffer, void *object, int type) {
 //	if(type == 0) {
 //		if (aacDecoder == NULL) {
 //			aacDecoder = new AACDecoder();
 //			aacDecoder->initAACDecoder(2, 48000);
 //		}
-//
-//		aacDecoder->decode(buffer, (unsigned long int)size);
+//		char outBuf[9600];
+//		//aacDecoder->decode(buffer, (unsigned long int)size, outBuf);
+//	} else {
+//		if (h264Decoder == NULL) {
+//			h264Decoder = new H264Decoder();
+//		}
+//		printf("h264Decoder %p\n", h264Decoder);
+//		h264Decoder->Decode((unsigned char *)buffer, size);
+//		printf("w %d h %d\n", h264Decoder->GetHeight(), h264Decoder->GetHeight());
 //	}
 //}
 //int main() {
