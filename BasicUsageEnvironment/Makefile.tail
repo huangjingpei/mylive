@@ -11,7 +11,7 @@ OBJS = BasicUsageEnvironment0.$(OBJ) BasicUsageEnvironment.$(OBJ) \
 
 libBasicUsageEnvironment.$(LIB_SUFFIX): $(OBJS)
 	$(LIBRARY_LINK)$@ $(LIBRARY_LINK_OPTS) \
-		$(OBJS)
+		$(OBJS) -shared -fPIC
 
 .$(C).$(OBJ):
 	$(C_COMPILER) -c $(C_FLAGS) $<       

@@ -8,7 +8,7 @@ all:	$(ALL)
 OBJS = UsageEnvironment.$(OBJ) HashTable.$(OBJ) strDup.$(OBJ)
 
 $(USAGE_ENVIRONMENT_LIB): $(OBJS)
-	$(LIBRARY_LINK)$@ $(LIBRARY_LINK_OPTS) $(OBJS)
+	$(LIBRARY_LINK)$@ $(LIBRARY_LINK_OPTS) $(OBJS) -shared -fPIC
 
 .$(C).$(OBJ):
 	$(C_COMPILER) -c $(C_FLAGS) $<       

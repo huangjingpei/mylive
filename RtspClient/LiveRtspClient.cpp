@@ -108,9 +108,6 @@ int main(int argc, char** argv) {
 #include "BitStream.h"
 char *fSPS = NULL;
 char *fPPS = NULL;
-int fSPSSize = 0;
-int fPPSSize = 0;
-
 
 #endif
 // Define a class to hold per-stream state that we maintain throughout each stream's lifetime:
@@ -660,6 +657,7 @@ DummySink::DummySink(UsageEnvironment &env, MediaSubsession &subsession,
 		//视频时候获取sps/pps
 		// Begin by Base-64 decoding the "sprop" parameter sets strings:
 		char *psets = strDup(fSubsession.fmtp_spropparametersets());
+		printf("psets %s\n", psets);
 		if (psets != NULL) {
 			char value[128];
 			size_t comma_pos = strcspn(psets, ",");
@@ -746,7 +744,7 @@ void DummySink::afterGettingFrame(void *clientData, unsigned frameSize,
 }
 
 // If you don't want to see debugging output for each received frame, then comment out the following line:
-//#define DEBUG_PRINT_EACH_RECEIVED_FRAME 0
+#define DEBUG_PRINT_EACH_RECEIVED_FRAME 0
 int DummySink::getSamplingFrequencyIndex(int samplerate) {
 	int idx = 3;
 	switch(samplerate) {
@@ -798,18 +796,21 @@ void DummySink::afterGettingFrame(unsigned frameSize,
 		if ((fTVFrame.tv_sec == 0) && (fTVFrame.tv_usec == 0)) {
 			fTVFrame.tv_sec = presentationTime.tv_sec;
 			fTVFrame.tv_usec = presentationTime.tv_usec;
-			if ((fSPS != NULL) && (NULL != fSPS)) {
+			if ((fSPS == NULL) && (NULL == fSPS)) {
 				int offset = 0;
+				char value[256];
 				fSPS = fSpecificData->getSpcificItem("sps", NULL);
 				fPPS = fSpecificData->getSpcificItem("pps", NULL);
+				int spsSize = strlen(fSPS);
+				int ppsSize = strlen(fPPS);
 				memcpy(fFrameBuffer + offset, &startCode, 4);
 				offset += 4;
-				memcpy(fFrameBuffer + offset, fSPS, fSPSSize);
-				offset += fSPSSize;
+				memcpy(fFrameBuffer + offset, fSPS, spsSize);
+				offset += spsSize;
 				memcpy(fFrameBuffer + offset, &startCode, 4);
 				offset += 4;
-				memcpy(fFrameBuffer + offset, fPPS, fPPSSize);
-				offset += fPPSSize;
+				memcpy(fFrameBuffer + offset, fPPS, ppsSize);
+				offset += ppsSize;
 				fBufferOffset += offset;
 			}
 		}
@@ -819,6 +820,10 @@ void DummySink::afterGettingFrame(unsigned frameSize,
 			memcpy(fFrameBuffer + fBufferOffset + 4, fReceiveBuffer, frameSize);
 			fBufferOffset += (frameSize + 4);
 		} else {
+
+			FILE *fp = fopen("./xx.h264", "a+");
+			fwrite(fFrameBuffer, 1, fBufferOffset, fp);
+			fclose(fp);
 			accessUnitNotify(fBufferOffset, ts, (char*) fFrameBuffer, obect, 1); //latency one frame.
 			fBufferOffset = 0;
 			fTVFrame.tv_sec = presentationTime.tv_sec;
@@ -832,7 +837,6 @@ void DummySink::afterGettingFrame(unsigned frameSize,
 		}
 	} else {
 #ifdef SAVE_AAC
-		printf("fBufferOffset %d\n", frameSize);
 /*
 		int DummySink::getSamplingFrequencyIndex(int samplerate) {
 			int idx = 3;
@@ -902,11 +906,11 @@ Boolean DummySink::continuePlaying() {
 //#include "H264Decoder.h"
 //AACDecoder *aacDecoder = NULL;
 //H264Decoder *h264Decoder = NULL;
-//void ExitNotify_(void* clientData, bool exit) {
-//
-//}
-//void AccessUnitNotify_(int size, long long ts, char *buffer, void *object, int type) {
-//	if(type == 0) {
+void ExitNotify_(void* clientData, bool exit) {
+
+}
+void AccessUnitNotify_(int size, long long ts, char *buffer, void *object, int type) {
+	if(type == 0) {
 //		if (aacDecoder == NULL) {
 //			aacDecoder = new AACDecoder();
 //			aacDecoder->initAACDecoder(2, 48000);
@@ -920,18 +924,18 @@ Boolean DummySink::continuePlaying() {
 //		printf("h264Decoder %p\n", h264Decoder);
 //		h264Decoder->Decode((unsigned char *)buffer, size);
 //		printf("w %d h %d\n", h264Decoder->GetHeight(), h264Decoder->GetHeight());
-//	}
-//}
-//int main() {
-//	GeDuRtspHandle *handle = GeDuRtspCreate("testRtspClient", "rtsp://192.168.1.100:8554/a.mkv",
-//			ExitNotify_, AccessUnitNotify_, NULL);
-//	char running = false;
-//	GeDuRtspEventLoop(handle, &running);
-//
-//	while(1) {
-//		sleep(1);
-//	}
-//
-//	GeDuRtspDestory(handle);
-//
-//}
+	}
+}
+int main() {
+	GeDuRtspHandle *handle = GeDuRtspCreate("testRtspClient", "rtsp://192.168.1.100:8554/a.mkv",
+			ExitNotify_, AccessUnitNotify_, NULL);
+	char running = false;
+	GeDuRtspEventLoop(handle, &running);
+
+	while(1) {
+		sleep(1);
+	}
+
+	GeDuRtspDestory(handle);
+
+}

@@ -6,9 +6,9 @@ ALL = $(LIVEMEDIA_LIB)
 all:	$(ALL)
 
 .$(C).$(OBJ):
-	$(C_COMPILER) -c $(C_FLAGS) $<
+	$(C_COMPILER) -c $(C_FLAGS) $<a -shared -fPIC
 .$(CPP).$(OBJ):
-	$(CPLUSPLUS_COMPILER) -c $(CPLUSPLUS_FLAGS) $<
+	$(CPLUSPLUS_COMPILER) -c $(CPLUSPLUS_FLAGS) $< -shared -fPIC
 
 MP3_SOURCE_OBJS = MP3FileSource.$(OBJ) MP3Transcoder.$(OBJ) MP3ADU.$(OBJ) MP3ADUdescriptor.$(OBJ) MP3ADUinterleaving.$(OBJ) MP3ADUTranscoder.$(OBJ) MP3StreamState.$(OBJ) MP3Internals.$(OBJ) MP3InternalsHuffman.$(OBJ) MP3InternalsHuffmanTable.$(OBJ) MP3ADURTPSource.$(OBJ)
 MPEG_SOURCE_OBJS = MPEG1or2Demux.$(OBJ) MPEG1or2DemuxedElementaryStream.$(OBJ) MPEGVideoStreamFramer.$(OBJ) MPEG1or2VideoStreamFramer.$(OBJ) MPEG1or2VideoStreamDiscreteFramer.$(OBJ) MPEG4VideoStreamFramer.$(OBJ) MPEG4VideoStreamDiscreteFramer.$(OBJ) H264or5VideoStreamFramer.$(OBJ) H264or5VideoStreamDiscreteFramer.$(OBJ) H264VideoStreamFramer.$(OBJ) H264VideoStreamDiscreteFramer.$(OBJ) H265VideoStreamFramer.$(OBJ) H265VideoStreamDiscreteFramer.$(OBJ) MPEGVideoStreamParser.$(OBJ) MPEG1or2AudioStreamFramer.$(OBJ) MPEG1or2AudioRTPSource.$(OBJ) MPEG4LATMAudioRTPSource.$(OBJ) MPEG4ESVideoRTPSource.$(OBJ) MPEG4GenericRTPSource.$(OBJ) $(MP3_SOURCE_OBJS) MPEG1or2VideoRTPSource.$(OBJ) MPEG2TransportStreamMultiplexor.$(OBJ) MPEG2TransportStreamFromPESSource.$(OBJ) MPEG2TransportStreamFromESSource.$(OBJ) MPEG2TransportStreamFramer.$(OBJ) MPEG2TransportStreamAccumulator.$(OBJ) ADTSAudioFileSource.$(OBJ)
@@ -59,7 +59,7 @@ LIVEMEDIA_LIB_OBJS = Media.$(OBJ) $(MISC_SOURCE_OBJS) $(MISC_SINK_OBJS) $(MISC_F
 $(LIVEMEDIA_LIB): $(LIVEMEDIA_LIB_OBJS) \
     $(PLATFORM_SPECIFIC_LIB_OBJS)
 	$(LIBRARY_LINK)$@ $(LIBRARY_LINK_OPTS) \
-		$(LIVEMEDIA_LIB_OBJS)
+		$(LIVEMEDIA_LIB_OBJS) -shared -fPIC
 
 Media.$(CPP):		include/Media.hh
 include/Media.hh:	include/liveMedia_version.hh

@@ -34,6 +34,7 @@ _env.Append(LIBS = [
 
 
 _env.Append(CPPFLAGS = ['-D_LINUX', '-DLINUX'])
+_env.Append(LDFLAGS = ['-shared -fPIC -shared'])
 totalSources = '''
 		#RtspClient/AACDecoder.cpp \
 		#RtspClient/H264Decoder.cpp \
